@@ -1,0 +1,11 @@
+{
+    "arch": "rv32",
+    "chip": "ph1p35",
+    "hpfFile": "D:/Anlogic/FDwork/voice_key4_platform/voice_key4_platform/voice_key4.hpf",
+    "location": "D:/Anlogic/FDwork/voice_key4_platform/voice_key4_platform",
+    "name": "voice_key4_platform",
+    "os": "standalone",
+    "processor": "rpu",
+    "toolVersion": "862c784 (2026-09-02-16:28)",
+    "type": "platform"
+}

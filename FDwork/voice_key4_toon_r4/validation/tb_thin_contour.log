@@ -1,0 +1,9 @@
+# vsim -do {run -all; quit -code 0} -l tb_thin_contour.log -c -novopt work.tb_thin_contour 
+# Loading sv_std.std
+# Loading work.tb_thin_contour
+# Loading work.video_style_core
+# Loading work.rgb_window_3x3
+# run -all 
+# THIN CONTOUR PASS: pattern=0 frames=2 checked=1024 ink=28, one bright-side step column / linear-gradient rejection
+# ** Note: $finish    : tb_thin_contour.sv(44)
+#    Time: 53962698 ps  Iteration: 1  Instance: /tb_thin_contour

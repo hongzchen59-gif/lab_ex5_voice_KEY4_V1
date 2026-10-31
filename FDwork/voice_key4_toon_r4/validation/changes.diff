@@ -1,0 +1,559 @@
+--- TOON_R3/user_source/hdl_source/video_style_core.v
++++ TOON_R4/user_source/hdl_source/video_style_core.v
+@@ -18,45 +18,59 @@
+         begin sum={2'b0,rgb[23:16]}+{1'b0,rgb[15:8],1'b0}+{2'b0,rgb[7:0]};
+             gray=sum[9:2];end
+     endfunction
+-    // TOON_R3: balanced fill palette with a quarter of smoothed detail.
+-    function [7:0] quant8;
+-        input [7:0] value;
++    // Shared luminance quantization: never lower fill luminance.
++    function [7:0] quant_up;
++        input [7:0] y;
+         begin
+-            if(value<8)quant8=0;
+-            else if(value>=248)quant8=255;
+-            else case(value[7:5])
+-                0:quant8=22;1:quant8=64;2:quant8=102;3:quant8=139;
+-                4:quant8=171;5:quant8=203;6:quant8=230;default:quant8=248;
+-            endcase
++            if(y<16)quant_up=y;
++            else if(y>=240)quant_up=255;
++            else quant_up={y[7:4],4'b0}+8'd16;
+         end
+     endfunction
+-    function [7:0] saturate;
+-        input signed [10:0] value;
+-        begin if(value<0)saturate=0;else if(value>255)saturate=255;else saturate=value[7:0];end
+-    endfunction
+-    function [2:0] chroma_shift;
++    function [32:0] candidate_chroma;
+         input [23:0] p;
+-        reg [7:0] hi,lo,y;
++        reg [7:0] y,hi,lo;
++        reg signed [10:0] r,g,b;
+         begin
++            y=gray(p);
+             hi=p[23:16]>p[15:8]?p[23:16]:p[15:8];if(p[7:0]>hi)hi=p[7:0];
+             lo=p[23:16]<p[15:8]?p[23:16]:p[15:8];if(p[7:0]<lo)lo=p[7:0];
+-            y=gray(p);
+-            if(hi-lo<64)chroma_shift=0;
+-            else if(y>=32 && y<=208)chroma_shift=3;
+-            else if(y>=24 && y<=232)chroma_shift=4;
+-            else chroma_shift=0;
++            r=$signed({3'b0,p[23:16]});g=$signed({3'b0,p[15:8]});b=$signed({3'b0,p[7:0]});
++            if(y>=32 && y<=208 && hi-lo>=32)begin
++                r=r+((r-$signed({3'b0,y}))>>>3);
++                g=g+((g-$signed({3'b0,y}))>>>3);
++                b=b+((b-$signed({3'b0,y}))>>>3);
++            end
++            candidate_chroma={r,g,b};
+         end
+     endfunction
+-    function [7:0] blend75;
+-        input [7:0] paint,original;
+-        reg [9:0] sum;
++    // {common positive lift, base RGB}. No per-channel clipping/hue rotation.
++    function [31:0] prepare_fill;
++        input [32:0] candidate;
++        input [23:0] original;
++        input [7:0] target;
++        reg signed [10:0] r,g,b;
++        reg [23:0] base,cand_rgb;
++        reg [7:0] maximum,minimum,cand_y,lift;
++        reg [8:0] needed,room;
+         begin
+-            if(paint==0 && original<8)blend75=0;
+-            else if(paint==255 && original>=248)blend75=255;
+-            else begin
+-                sum={1'b0,paint,1'b0}+{2'b0,paint}+{2'b0,original};
+-                blend75=sum[9:2];
++            base=original;
++            maximum=original[23:16]>original[15:8]?original[23:16]:original[15:8];
++            if(original[7:0]>maximum)maximum=original[7:0];
++            minimum=original[23:16]<original[15:8]?original[23:16]:original[15:8];
++            if(original[7:0]<minimum)minimum=original[7:0];
++            needed={1'b0,target}-{1'b0,gray(original)};
++            room=9'd255-{1'b0,maximum};
++            lift=needed<=room?needed[7:0]:room[7:0];
++            r=$signed(candidate[32:22]);g=$signed(candidate[21:11]);b=$signed(candidate[10:0]);
++            if(minimum<=8 && maximum>=224)lift=0;
++            else if(r>=0 && r<=255 && g>=0 && g<=255 && b>=0 && b<=255)begin
++                cand_rgb={r[7:0],g[7:0],b[7:0]};cand_y=gray(cand_rgb);
++                maximum=r[7:0]>g[7:0]?r[7:0]:g[7:0];if(b[7:0]>maximum)maximum=b[7:0];
++                needed={1'b0,target}-{1'b0,cand_y};room=9'd255-{1'b0,maximum};
++                if(target>=cand_y && needed<=room)begin base=cand_rgb;lift=needed[7:0];end
+             end
++            prepare_fill={lift,base};
+         end
+     endfunction
+     reg [30:0] meta [0:5];
+@@ -66,8 +80,13 @@
+     reg [10:0] abs_gx,abs_gy;
+     reg [11:0] magnitude;
+     reg edge_d,edge_dd;
+-    reg [23:0] toon_quant,toon_color,toon_final;
+-    reg signed [10:0] toon_chroma[0:2];
++    reg [23:0] toon_color,toon_final;
++    reg [32:0] chroma_candidate;
++    reg [31:0] fill_plan;
++    reg [7:0] target_luma,target_d;
++    reg [3:0] curve_0,curve_1,curve_2;
++    reg [1:0] normal_dir;
++    reg sign_x,sign_y;
+     reg toon_ink;
+     integer i,c;
+     reg effect_seen;
+@@ -78,35 +97,37 @@
+     end
+     always @(posedge I_clk or negedge I_rst_n) begin
+         if(!I_rst_n) begin
+-            O_pixel<=0;valid_pipe<=0;toon_quant<=0;toon_color<=0;toon_final<=0;toon_ink<=0;gx_pos<=0;gx_neg<=0;gy_pos<=0;gy_neg<=0;
++            O_pixel<=0;valid_pipe<=0;toon_color<=0;toon_final<=0;toon_ink<=0;chroma_candidate<=0;fill_plan<=0;target_luma<=0;target_d<=0;curve_0<=0;curve_1<=0;curve_2<=0;normal_dir<=0;sign_x<=0;sign_y<=0;gx_pos<=0;gx_neg<=0;gy_pos<=0;gy_neg<=0;
+             abs_gx<=0;abs_gy<=0;magnitude<=0;edge_d<=0;edge_dd<=0;
+             for(i=0;i<6;i=i+1) meta[i]<=0;
+             for(i=0;i<9;i=i+1) lum[i]<=0;
+-            for(c=0;c<3;c=c+1)toon_chroma[c]<=0;
+         end else begin
+             meta[0]<=center;valid_pipe<={valid_pipe[4:0],win_valid};
+             for(i=1;i<6;i=i+1) meta[i]<=meta[i-1];
+             for(i=0;i<9;i=i+1) lum[i]<=gray(win[215-i*24 -: 24]);
+-            // E2 palette / E3 chroma / E4 clamp / E5 colored ink: unchanged latency.
+-            for(c=0;c<3;c=c+1)begin
+-                toon_quant[23-c*8 -:8]<=quant8(meta[1][23-c*8 -:8]);
+-                case(chroma_shift(toon_quant))
+-                    3:toon_chroma[c]<=$signed({3'b0,toon_quant[23-c*8 -:8]})+
+-                        (($signed({3'b0,toon_quant[23-c*8 -:8]})-$signed({3'b0,gray(toon_quant)}))>>>3);
+-                    4:toon_chroma[c]<=$signed({3'b0,toon_quant[23-c*8 -:8]})+
+-                        (($signed({3'b0,toon_quant[23-c*8 -:8]})-$signed({3'b0,gray(toon_quant)}))>>>4);
+-                    default:toon_chroma[c]<=$signed({3'b0,toon_quant[23-c*8 -:8]});
+-                endcase
+-                toon_color[23-c*8 -:8]<=saturate(toon_chroma[c]);
+-            end
+-            toon_ink<=(magnitude>=256);
+-            toon_final<=toon_ink?{1'b0,toon_color[23:17],1'b0,toon_color[15:9],1'b0,toon_color[7:1]}:toon_color;
++            target_luma<=quant_up(lum[4]);target_d<=target_luma;
++            chroma_candidate<=candidate_chroma(meta[1][23:0]);
++            fill_plan<=prepare_fill(chroma_candidate,meta[2][23:0],target_d);
++            for(c=0;c<3;c=c+1)
++                toon_color[23-c*8 -:8]<=fill_plan[23-c*8 -:8]+fill_plan[31:24];
++            // One-sided structural outline; linear shading is not ink.
++            curve_0[0]<={1'b0,lum[4],1'b0}>({2'b0,lum[3]}+{2'b0,lum[5]}+10'd16);
++            curve_0[1]<={1'b0,lum[4],1'b0}>({2'b0,lum[1]}+{2'b0,lum[7]}+10'd16);
++            curve_0[2]<={1'b0,lum[4],1'b0}>({2'b0,lum[0]}+{2'b0,lum[8]}+10'd16);
++            curve_0[3]<={1'b0,lum[4],1'b0}>({2'b0,lum[2]}+{2'b0,lum[6]}+10'd16);
++            curve_1<=curve_0;curve_2<=curve_1;
++            if({1'b0,abs_gx}>{abs_gy,1'b0})normal_dir<=0;
++            else if({1'b0,abs_gy}>{abs_gx,1'b0})normal_dir<=1;
++            else normal_dir<=(sign_x==sign_y)?2'd3:2'd2;
++            toon_ink<=(magnitude>=256) && curve_2[normal_dir];
++            toon_final<=toon_ink?24'h000000:toon_color;
+             gx_pos<={3'b0,lum[2]}+{2'b0,lum[5],1'b0}+{3'b0,lum[8]};
+             gx_neg<={3'b0,lum[0]}+{2'b0,lum[3],1'b0}+{3'b0,lum[6]};
+             gy_pos<={3'b0,lum[0]}+{2'b0,lum[1],1'b0}+{3'b0,lum[2]};
+             gy_neg<={3'b0,lum[6]}+{2'b0,lum[7],1'b0}+{3'b0,lum[8]};
+             abs_gx<=(gx_pos>=gx_neg)?gx_pos-gx_neg:gx_neg-gx_pos;
+             abs_gy<=(gy_pos>=gy_neg)?gy_pos-gy_neg:gy_neg-gy_pos;
++            sign_x<=(gx_pos<gx_neg);sign_y<=(gy_pos<gy_neg);
+             magnitude<={1'b0,abs_gx}+{1'b0,abs_gy};
+             edge_d<=(magnitude>=EDGE_THRESHOLD);edge_dd<=edge_d;
+             O_pixel[30:24]<=meta[5][30:24];
+@@ -116,8 +137,7 @@
+                 2'd1: O_pixel[23:0]<=(edge_dd && valid_pipe[5])?24'hffffff:24'h000000;
+                 2'd2: begin
+                     if(!valid_pipe[5]) O_pixel[23:0]<=meta[5][23:0];
+-                    else O_pixel[23:0]<={blend75(toon_final[23:16],meta[5][23:16]),
+-                        blend75(toon_final[15:8],meta[5][15:8]),blend75(toon_final[7:0],meta[5][7:0])};
++                    else O_pixel[23:0]<=toon_final;
+                 end
+                 2'd3: O_pixel[23:0]<=meta[5][23:0]; // DETECT base image
+             endcase
+--- TOON_R3/user_source/hdl_source/hdmi_mixer.v
++++ TOON_R4/user_source/hdl_source/hdmi_mixer.v
+@@ -531,7 +531,7 @@
+         case(mode_2d)
+             2'd0: mode_text="ORIGINAL";
+             2'd1: mode_text="EDGE    ";
+-            2'd2: mode_text=EFFECT_STATUS_ENABLE?(I_effect_ready?"TOON R3 ":"FX WAIT "):"CARTOON ";
++            2'd2: mode_text=EFFECT_STATUS_ENABLE?(I_effect_ready?"TOON R4 ":"FX WAIT "):"CARTOON ";
+             default: mode_text="DETECT  ";
+         endcase
+         case(mode_local_x[6:4])
+--- TOON_R3/sim/natural_reference.py
++++ TOON_R4/sim/natural_reference.py
+@@ -37,30 +37,39 @@
+     return result
+ 
+ 
+-PALETTE = (0,22,64,102,139,171,203,230,248,255)
++def quant_up(y):
++    return y if y<16 else min(255,(y//16+1)*16)
+ 
+-def quant8(v):
+-    # Preserve R1's bin boundaries, brighten the colors assigned to each region.
+-    return 0 if v<8 else 255 if v>=248 else PALETTE[v//32+1]
++
++def candidate_chroma(p):
++    y=gray(p)
++    return tuple(c+(c-y)//8 for c in p) if 32<=y<=208 and max(p)-min(p)>=32 else p
+ 
+ 
+ def color_fill(p):
+-    q=tuple(quant8(v) for v in p)
+-    y=gray(q);spread=max(q)-min(q)
+-    shift=3 if 32<=y<=208 and spread>=64 else 4 if 24<=y<=232 and spread>=64 else None
+-    return q if shift is None else tuple(clamp(v+(v-y)//(1<<shift)) for v in q)
++    y=gray(p);target=quant_up(y)
++    if min(p)<=8 and max(p)>=224:
++        return p  # Already saturated bright colors keep their original hue.
++    candidate=candidate_chroma(p)
++    lift=target-gray(candidate)
++    if min(candidate)>=0 and max(candidate)<=255 and lift>=0 and max(candidate)+lift<=255:
++        return tuple(c+lift for c in candidate)
++    lift=min(target-y,255-max(p))
++    return tuple(c+lift for c in p)
+ 
+ 
+-def blend75(paint,original):
+-    if paint==0 and original<8:return 0
+-    if paint==255 and original>=248:return 255
+-    return (3*paint+original)//4
++def edge_ink(taps,luma,gx,gy):
++    if abs(gx)+abs(gy)<256:return False
++    if abs(gx)>2*abs(gy):a,b=3,5
++    elif abs(gy)>2*abs(gx):a,b=1,7
++    elif (gx<0)==(gy<0):a,b=2,6
++    else:a,b=0,8
++    return 2*luma[4]>luma[a]+luma[b]+16
+ 
+ 
+-def natural_color(p, magnitude):
+-    fill=color_fill(p)
+-    paint=tuple(v//2 for v in fill) if magnitude>=256 else fill
+-    return tuple(blend75(v,original) for v,original in zip(paint,p))
++def natural_color(p,magnitude):
++    # Numeric fill API: ink needs the actual neighborhood, not magnitude alone.
++    return color_fill(p)
+ 
+ 
+ def process_image(img, mode):
+@@ -82,7 +91,7 @@
+             if mode==1:
+                 output[y][x] = (255, 255, 255) if mag>=80 else (0, 0, 0)
+             elif mode==2:
+-                output[y][x] = natural_color(source[y][x], mag)
++                output[y][x] = (0,0,0) if edge_ink(taps,luma,gx,gy) else color_fill(source[y][x])
+             else:
+                 blur = [sum(p[c]*k for p, k in zip(taps, SPATIAL))//16 for c in range(3)]
+                 output[y][x] = tuple(clamp(GAMMA85[v]+(v-b)//2) for v, b in zip(source[y][x], blur))
+--- TOON_R3/sim/check_visual_properties.py
++++ TOON_R4/sim/check_visual_properties.py
+@@ -1,60 +1,47 @@
+-"""Balanced TOON: bounded fill brightness and a quarter of smoothed detail."""
++"""R4 separates non-darkening color fill from a thin structural ink mask."""
+ from pathlib import Path
+-import json,random,statistics
+-from natural_reference import process_image,natural_color,color_fill,preserve_image,gray,quant8,PALETTE,blend75
+-from toon_r1_reference import natural_color as r1_color
+-from toon_r2_reference import process_image as previous,natural_color as r2_color,quant8 as previous_quant
++import itertools,json,random
++from natural_reference import process_image,color_fill,gray,quant_up
++from toon_r3_reference import process_image as previous,natural_color as previous_color
+ 
+-neutral=[natural_color((v,)*3,0) for v in range(256)]
+-old=[r1_color((v,)*3,0)[0] for v in range(256)]
+-strong=[r2_color((v,)*3,0)[0] for v in range(256)]
+-assert neutral[0]==(0,)*3 and neutral[-1]==(255,)*3
+-assert all(r==g==b for r,g,b in neutral)
+-assert all(old[v]<=neutral[v][0]<=strong[v] for v in range(256))
+-assert all(a[0]<=b[0] for a,b in zip(neutral,neutral[1:]))
+-for representative in range(16,241,32):
+-    assert neutral[representative][0]==(old[representative]+strong[representative])//2
+-assert max(b[0]-a[0] for a,b in zip(neutral,neutral[1:]))<max(b-a for a,b in zip(strong,strong[1:]))
+-assert 0<neutral[127][0]-neutral[96][0]<=8  # Detail inside one quantization bin.
+-for a in range(256):
+-    for b in range(256):
+-        assert (previous_quant(a)==previous_quant(b))==(quant8(a)==quant8(b))
++for y in range(256):
++    p=(y,)*3;q=color_fill(p)
++    assert q==(quant_up(y),)*3 and gray(q)>=y
++assert color_fill((255,)*3)==(255,)*3
++assert color_fill((240,)*3)==(255,)*3
++probes=[(127,129,127),(127,127,129),(180,60,60),(60,150,60),(50,80,180)]
++records=[]
++for p in probes:
++    q=color_fill(p);assert gray(q)>=gray(p)
++    if max(p)-min(p)<32:
++        assert q[0]-q[1]==p[0]-p[1] and q[1]-q[2]==p[1]-p[2]
++    records.append({'input':p,'R3_flat':previous_color(p,0),'R4_fill':q})
++for p in itertools.product(range(0,256,17),repeat=3):
++    q=color_fill(p);assert min(q)>=0 and max(q)<=255 and gray(q)>=gray(p)
++    for a,b in itertools.combinations(range(3),2):
++        assert (p[a]-p[b])*(q[a]-q[b])>=0
+ 
+-# Exhaust the legal blend domain to catch narrow intermediate arithmetic.
+-for paint in range(256):
+-    for original in range(256):
+-        out=blend75(paint,original)
+-        assert 0<=out<=255
+-        if not (paint==0 and original<8 or paint==255 and original>=248):
+-            assert min(paint,original)<=out<=max(paint,original)
+-
+-boundary=[[(240,40,0) if x<24 else (0,40,240) for x in range(48)] for _ in range(16)]
+-smooth=preserve_image(boundary)
+-assert smooth[8][23]==boundary[8][23] and smooth[8][24]==boundary[8][24]
+-colors=[]
+-for p in [(180,60,60),(60,150,60),(50,80,180)]:
+-    a,b,c=r1_color(p,0),natural_color(p,0),r2_color(p,0)
+-    assert gray(a)<gray(b)<gray(c)
+-    colors.append({'input':p,'R1':a,'R3':b,'R2':c})
+-step=[[(0,)*3 if x<24 else (255,)*3 for x in range(48)] for _ in range(16)]
+-ink=process_image(step,2)
+-assert ink[8][24]==(159,)*3 and ink[8][25]==(255,)*3
++W,H=32,16
++step=[[(64,)*3 if x<16 else (192,)*3 for x in range(W)] for _ in range(H)]
++out=process_image(step,2)
++black=[(x,y) for y in range(1,H-1) for x in range(1,W-1) if out[y][x]==(0,)*3]
++assert black==[(16,y) for y in range(1,H-1)]
++assert out[8][15]==(80,)*3 and out[8][17]==(208,)*3
++white=process_image([[(255,)*3 for _ in range(W)] for _ in range(H)],2)
++assert all(p==(255,)*3 for row in white for p in row)
++ramp=[[(max(0,min(240,(x-8)*40)),)*3 for x in range(W)] for _ in range(H)]
++out=process_image(ramp,2)
++assert all(out[y][x]==(quant_up((x-8)*40),)*3 for y in range(1,H-1) for x in range(10,14))
++boundary=[[(240,40,0) if x<16 else (0,40,240) for x in range(W)] for _ in range(H)]
++out=process_image(boundary,2)
++assert out[8][15]==(240,40,0) and out[8][16]==(0,40,240)
+ for mode in (0,1,3):assert process_image(boundary,mode)==previous(boundary,mode)
+-
+-noise={}
+-for level in (80,96):
+-    rng=random.Random(20261026)
+-    scene=[[(level+rng.randrange(-8,9),)*3 for x in range(96)] for y in range(64)]
+-    before=[gray(p) for row in previous(scene,2)[2:-2] for p in row[2:-2]]
+-    after=[gray(p) for row in process_image(scene,2)[2:-2] for p in row[2:-2]]
+-    noise[level]={'R2_stddev':statistics.pstdev(before),'R3_stddev':statistics.pstdev(after)}
+-report={'scope':'synthetic post-gamma image properties, not hardware measurements',
+- 'paint_palette':list(PALETTE[1:-1]),'paint_fraction':0.75,'smoothed_detail_fraction':0.25,
+- 'input_bin_boundaries_unchanged':True,'neutral_fills_between_R1_R2':True,
+- 'representative_neutral_brightness_exact_midpoint':True,'neutral_output_levels':len(set(neutral)),
+- 'neutral_max_jump_R2_R3':[max(b-a for a,b in zip(strong,strong[1:])),max(b[0]-a[0] for a,b in zip(neutral,neutral[1:]))],
+- 'color_samples':colors,'strong_white_edge_output':[159]*3,'nonedge_white_output':[255]*3,
+- 'same_luma_color_boundary_no_bleed':True,'noise_samples':noise,
+- 'KEY1_KEY2_KEY4_pixel_identical':True}
++report={'scope':'synthetic post-gamma image properties; not hardware color calibration',
++ 'fill_non_darkening_sampled_RGB':4096,'all_neutral_gray_levels_non_darkening':True,
++ 'flat_white_stays_white':True,'gray240_fill':[255]*3,'color_probes':records,
++ 'near_neutral_channel_differences_preserved':True,'standard_step_ink_columns':[16],
++ 'standard_step_ink_pixels':len(black),'linear_shading_not_ink':True,
++ 'same_luma_color_boundary_no_bleed':True,'KEY1_KEY2_KEY4_pixel_identical':True,
++ 'outline_note':'Local one-sided structural test, not a full Canny/NMS algorithm; general scene line widths may vary.'}
+ Path(__file__).with_name('visual_properties.json').write_text(json.dumps(report,indent=2)+'\n')
+ print('VISUAL PASS: '+json.dumps(report))
+--- TOON_R3/sim/preview_key3.py
++++ TOON_R4/sim/preview_key3.py
+@@ -3,19 +3,18 @@
+ import sys
+ from PIL import Image,ImageDraw
+ from natural_reference import process_image
+-from toon_r1_reference import process_image as r1
+-from toon_r2_reference import process_image as r2
++from toon_r3_reference import process_image as r3
+ source=Path(sys.argv[1]);output=Path(sys.argv[2]);output.mkdir(parents=True,exist_ok=True)
+ slide=Image.open(source).convert('RGB')
+ assert slide.size==(1048,687),slide.size
+ image=slide.crop((256,387,468,558))
+ data=list(image.getdata());rows=[data[y*image.width:(y+1)*image.width] for y in range(image.height)]
+ variants=[image]
+-for fn in (r1,r2,process_image):
++for fn in (r3,process_image):
+     pixels=fn(rows,2);im=Image.new('RGB',image.size);im.putdata([p for row in pixels for p in row]);variants.append(im)
+-panel=Image.new('RGB',(4*318,256+58),(28,28,28));draw=ImageDraw.Draw(panel)
+-for i,(im,label) in enumerate(zip(variants,['Input (slide thumbnail)','TOON_R1','TOON_R2','TOON_R3 integer model'])):
+-    panel.paste(im.resize((318,256),Image.Resampling.NEAREST),(i*318,28));draw.text((i*318+8,8),label,fill='white')
+-draw.text((8,292),'Software preview from a slide thumbnail; not real-board capture or camera color calibration.',fill='white')
++panel=Image.new('RGB',(3*424,342+58),(28,28,28));draw=ImageDraw.Draw(panel)
++for i,(im,label) in enumerate(zip(variants,['Input (slide thumbnail)','TOON_R3','TOON_R4 integer model'])):
++    panel.paste(im.resize((424,342),Image.Resampling.NEAREST),(i*424,28));draw.text((i*424+8,8),label,fill='white')
++draw.text((8,378),'Software preview from a slide thumbnail; not real-board capture or camera color calibration.',fill='white')
+ panel.save(output/'key3_comparison.png');image.save(output/'preview_input.png')
+ print('KEY3_MODEL_PREVIEW '+str(output/'key3_comparison.png'))
+--- TOON_R3/sim/tb_video_720p.sv
++++ TOON_R4/sim/tb_video_720p.sv
+@@ -24,36 +24,24 @@
+         input integer v;
+         begin gamma80=$rtoi(255.0*((v/255.0)**0.80)+0.5);end
+     endfunction
+-    // Independent integer model of the flat bright-palette frame.
+     function [23:0] natural;
+         input [23:0] p;
+-        integer c,v,q[0:2],y,hi,lo,shift,original;
++        integer r,g,b,y,target,hi,lo,cr,cg,cb,cy,lift;
+         begin
+-            for(c=0;c<3;c=c+1)begin
+-                v=p[23-c*8 -:8];
+-                if(v<8)q[c]=0;
+-                else if(v>=248)q[c]=255;
+-                else case(v/32)
+-                    0:q[c]=22;1:q[c]=64;2:q[c]=102;3:q[c]=139;
+-                    4:q[c]=171;5:q[c]=203;6:q[c]=230;7:q[c]=248;
+-                endcase
++            r=p[23:16];g=p[15:8];b=p[7:0];y=(r+2*g+b)/4;
++            target=y<16?y:((y/16+1)*16);if(target>255)target=255;
++            hi=r>g?r:g;if(b>hi)hi=b;lo=r<g?r:g;if(b<lo)lo=b;
++            cr=r;cg=g;cb=b;
++            if(y>=32 && y<=208 && hi-lo>=32)begin cr=r+((r-y)>>>3);cg=g+((g-y)>>>3);cb=b+((b-y)>>>3);end
++            cy=(cr+2*cg+cb)/4;
++            if(!(lo<=8 && hi>=224) && cr>=0 && cr<=255 && cg>=0 && cg<=255 && cb>=0 && cb<=255 && cy<=target &&
++                cr+target-cy<=255 && cg+target-cy<=255 && cb+target-cy<=255)begin
++                lift=target-cy;r=cr;g=cg;b=cb;
++            end else begin
++                lift=target-y;if(lift>255-hi)lift=255-hi;
++                if(lo<=8 && hi>=224)lift=0;
+             end
+-            y=(q[0]+2*q[1]+q[2])/4;
+-            hi=q[0]>q[1]?q[0]:q[1];if(q[2]>hi)hi=q[2];
+-            lo=q[0]<q[1]?q[0]:q[1];if(q[2]<lo)lo=q[2];
+-            if(hi-lo<64)shift=0;
+-            else if(y>=32 && y<=208)shift=3;
+-            else if(y>=24 && y<=232)shift=4;
+-            else shift=0;
+-            for(c=0;c<3;c=c+1)begin
+-                v=q[c];if(shift!=0)v=v+((v-y)>>>shift);
+-                if(v<0)v=0;if(v>255)v=255;
+-                original=p[23-c*8 -:8];
+-                if(v==0 && original<8)v=0;
+-                else if(v==255 && original>=248)v=255;
+-                else v=(3*v+original)/4;
+-                natural[23-c*8 -:8]=v;
+-            end
++            natural={8'(r+lift),8'(g+lift),8'(b+lift)};
+         end
+     endfunction
+     function [7:0] gamma85;
+--- TOON_R3/sim/tb_vivid_status.sv
++++ TOON_R4/sim/tb_vivid_status.sv
+@@ -20,7 +20,7 @@
+     initial begin
+         repeat(6)@(negedge clk);rst=1;
+         repeat(5)frame;
+-        if(!ready || mixer.mode_text!=="TOON R3 ")$fatal(1,"Effect evidence did not arm");
++        if(!ready || mixer.mode_text!=="TOON R4 ")$fatal(1,"Effect evidence did not arm");
+         // Fault injection: either window's bypass must remove the ready label.
+         force dut.u_preserve.valid=6'b0;repeat(3)frame;
+         if(ready || mixer.mode_text!=="FX WAIT ")$fatal(1,"Smoothing bypass falsely ready");
+@@ -29,7 +29,7 @@
+         force dut.u_style.valid_pipe=6'b0;repeat(3)frame;
+         if(ready || mixer.mode_text!=="FX WAIT ")$fatal(1,"Color bypass falsely ready");
+         release dut.u_style.valid_pipe;repeat(4)frame;
+-        if(!ready || mixer.mode_text!=="TOON R3 ")$fatal(1,"Color recovery");
++        if(!ready || mixer.mode_text!=="TOON R4 ")$fatal(1,"Color recovery");
+         $display("VIVID STATUS PASS: both real windows active, version OSD, independent bypass fault injection and recovery");$finish;
+     end
+     initial begin #200000;$fatal(1,"Effect status timeout");end
+--- TOON_R3/sim/tb_color_fill.sv
++++ TOON_R4/sim/tb_color_fill.sv
+@@ -0,0 +1,34 @@
++`timescale 1ns/1ps
++module tb_color_fill;
++    video_style_core #(.H_TOTAL(48)) dut(.I_clk(1'b0),.I_rst_n(1'b0),.I_pixel(31'd0),.O_pixel(),.O_effect_ready());
++    integer r,g,b,y,q,got,expected,count=0;reg [23:0] p,out;
++    reg [32:0] candidate;reg [31:0] plan;
++    task check(input [23:0] raw);
++        integer rr,gg,bb,oy,ny;
++        begin
++            candidate=dut.candidate_chroma(raw);
++            oy=(raw[23:16]+2*int'(raw[15:8])+raw[7:0])/4;
++            plan=dut.prepare_fill(candidate,raw,dut.quant_up(oy[7:0]));
++            rr=int'(plan[23:16])+plan[31:24];gg=int'(plan[15:8])+plan[31:24];bb=int'(plan[7:0])+plan[31:24];
++            if(rr>255 || gg>255 || bb>255)$fatal(1,"Fill overflow %h",raw);
++            ny=(rr+2*gg+bb)/4;
++            if(ny<oy)$fatal(1,"Fill darkened %h Y=%0d -> %0d",raw,oy,ny);
++            if((raw[23:16]>=raw[15:8] && rr<gg) || (raw[15:8]>=raw[7:0] && gg<bb) ||
++               (raw[7:0]>=raw[23:16] && bb<rr))$fatal(1,"Channel order changed");
++            out={8'(rr),8'(gg),8'(bb)};count=count+1;
++        end
++    endtask
++    initial begin
++        for(y=0;y<256;y=y+1)begin
++            expected=y<16?y:((y/16+1)*16);if(expected>255)expected=255;
++            got=dut.quant_up(y[7:0]);if(got!=expected)$fatal(1,"Luma LUT");
++            check({8'(y),8'(y),8'(y)});
++            if(out!=={8'(expected),8'(expected),8'(expected)})$fatal(1,"Neutral tint/darkening");
++        end
++        for(r=0;r<256;r=r+17)for(g=0;g<256;g=g+17)for(b=0;b<256;b=b+17)check({8'(r),8'(g),8'(b)});
++        for(q=0;q<4096;q=q+1)begin p=$random;check(p);end
++        check(24'h7f817f);if(int'(out[15:8])-int'(out[23:16])!=2 || out[23:16]!==out[7:0])$fatal(1,"Near-neutral exaggerated");
++        check(24'hffffff);if(out!==24'hffffff)$fatal(1,"White became gray");
++        $display("COLOR FILL PASS: %0d colors, all gray levels, non-darkening luminance, gamut and near-neutral hue protection",count);$finish;
++    end
++endmodule
+--- TOON_R3/sim/tb_thin_contour.sv
++++ TOON_R4/sim/tb_thin_contour.sv
+@@ -0,0 +1,47 @@
++`timescale 1ns/1ps
++module tb_thin_contour #(parameter PATTERN=0);
++    localparam W=32,H=16,HT=48,VT=20;
++    reg clk=0,rst=0;always #6.667 clk=~clk;
++    reg [30:0] pixel=0;wire [30:0] result;wire ready;
++    video_style_core #(.H_TOTAL(HT)) dut(.I_clk(clk),.I_rst_n(rst),.I_pixel(pixel),.O_pixel(result),.O_effect_ready(ready));
++    function integer value(input integer x);
++        begin
++            if(PATTERN==0)value=x<16?64:192;
++            else if(x<8)value=0;
++            else if(x>14)value=240;
++            else value=(x-8)*40;
++        end
++    endfunction
++    integer f,x,y,ox=0,oy=0,frames=0,ink=0,checked=0,v,expected;
++    always @(posedge clk)begin
++        #1;
++        if(rst && result[26])begin
++            if(result[27])begin ox=0;oy=0;if(ready)frames=frames+1;end
++            if(ready)begin
++                v=value(ox);
++                if(PATTERN==0)begin
++                    expected=(ox==0 || ox==W-1 || oy==0 || oy==H-1)?v:(ox==16?0:(v+16));
++                    if(result[23:0]!=={8'(expected),8'(expected),8'(expected)})$fatal(1,"Step x=%0d y=%0d got=%h exp=%0d",ox,oy,result[23:0],expected);
++                    if(result[23:0]==0)ink=ink+1;
++                    checked=checked+1;
++                end else if(ox>=10 && ox<=13 && oy>0 && oy<H-1)begin
++                    expected=(v/16+1)*16;
++                    if(result[23:0]!=={8'(expected),8'(expected),8'(expected)})$fatal(1,"Linear shading painted black x=%0d got=%h",ox,result[23:0]);
++                    checked=checked+1;
++                end
++            end
++            if(ox==W-1)begin ox=0;oy=oy+1;end else ox=ox+1;
++        end
++    end
++    initial begin
++        repeat(6)@(negedge clk);rst=1;
++        for(f=0;f<4;f=f+1)for(y=0;y<VT;y=y+1)for(x=0;x<HT;x=x+1)begin
++            @(negedge clk);v=value(x);
++            pixel={2'd2,1'(x==W-1&&y<H),1'(x==0&&y==0),1'(x<W&&y<H),2'b00,8'(v),8'(v),8'(v)};
++        end
++        @(negedge clk);pixel=0;repeat(200)@(negedge clk);
++        if(frames<2 || checked<100 || (PATTERN==0 && ink!=frames*(H-2)))$fatal(1,"Contour counts frames=%0d ink=%0d checked=%0d",frames,ink,checked);
++        $display("THIN CONTOUR PASS: pattern=%0d frames=%0d checked=%0d ink=%0d, one bright-side step column / linear-gradient rejection",PATTERN,frames,checked,ink);$finish;
++    end
++    initial begin #100000;$fatal(1,"Contour timeout");end
++endmodule
+--- TOON_R3/sim/run_modelsim.ps1
++++ TOON_R4/sim/run_modelsim.ps1
+@@ -1,6 +1,6 @@
+ param(
+     [string]$ModelSimDir = 'D:\FPGA\Modelsim\modelsim_ase\win32aloem',
+-    [string[]]$Benches = @('tb_toon_blend','tb_vivid_status','tb_video_timebase','tb_video_latency','tb_latency_overlay','tb_latency_pipeline','tb_latency_startup','tb_motion_cdc','tb_motion','tb_video_tag','tb_motion_overlay','tb_motion_720p','tb_isp_ddr_frame','tb_awb_stability','tb_preserve_norm','tb_dark_control','tb_camera_config','tb_video_style','tb_key_mode','tb_video_out_align','tb_video_720p','tb_detect_mask','tb_detect_components','tb_detect_deadline','tb_detect_overlay','tb_detect_720p')
++    [string[]]$Benches = @('tb_color_fill','tb_thin_contour','tb_vivid_status','tb_video_timebase','tb_video_latency','tb_latency_overlay','tb_latency_pipeline','tb_latency_startup','tb_motion_cdc','tb_motion','tb_video_tag','tb_motion_overlay','tb_motion_720p','tb_isp_ddr_frame','tb_awb_stability','tb_preserve_norm','tb_dark_control','tb_camera_config','tb_video_style','tb_key_mode','tb_video_out_align','tb_video_720p','tb_detect_mask','tb_detect_components','tb_detect_deadline','tb_detect_overlay','tb_detect_720p')
+ )
+ $ErrorActionPreference = 'Stop'
+ Push-Location $PSScriptRoot
+@@ -23,7 +23,7 @@
+     $sources += Join-Path $rtl 'vtc\uivtc.v'
+     $fifo = Join-Path $PSScriptRoot '..\user_source\ip_source\w128_d512_fifo'
+     $sources += @((Join-Path $fifo 'w128_d512_fifo.v'), (Join-Path $fifo 'soft_fifo_al_4057d6b76aa6.v'))
+-    & "$ModelSimDir\vlog.exe" -sv -work work @sources tb_toon_blend.sv tb_vivid_status.sv tb_video_timebase.sv tb_video_latency.sv tb_latency_overlay.sv tb_latency_pipeline.sv tb_latency_startup.sv tb_motion_cdc.sv tb_motion.sv tb_video_tag.sv tb_motion_overlay.sv tb_motion_720p.sv tb_isp_ddr_frame.sv tb_awb_stability.sv tb_video_style.sv tb_key_mode.sv tb_video_out_align.sv tb_video_720p.sv tb_dark_control.sv tb_camera_config.sv tb_preserve_norm.sv tb_detect_mask.sv tb_detect_components.sv tb_detect_deadline.sv tb_detect_overlay.sv tb_detect_720p.sv
++    & "$ModelSimDir\vlog.exe" -sv -work work @sources tb_color_fill.sv tb_thin_contour.sv tb_vivid_status.sv tb_video_timebase.sv tb_video_latency.sv tb_latency_overlay.sv tb_latency_pipeline.sv tb_latency_startup.sv tb_motion_cdc.sv tb_motion.sv tb_video_tag.sv tb_motion_overlay.sv tb_motion_720p.sv tb_isp_ddr_frame.sv tb_awb_stability.sv tb_video_style.sv tb_key_mode.sv tb_video_out_align.sv tb_video_720p.sv tb_dark_control.sv tb_camera_config.sv tb_preserve_norm.sv tb_detect_mask.sv tb_detect_components.sv tb_detect_deadline.sv tb_detect_overlay.sv tb_detect_720p.sv
+     if ($LASTEXITCODE) { throw 'RTL compilation failed' }
+     foreach ($bench in $Benches) {
+         & "$ModelSimDir\vsim.exe" -c -novopt -l "$bench.log" "work.$bench" -do 'run -all; quit -code 0'

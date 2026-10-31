@@ -1,0 +1,8 @@
+# vsim -do {run -all; quit -code 0} -l tb_key_mode.log -c -novopt work.tb_key_mode 
+# Loading sv_std.std
+# Loading work.tb_key_mode
+# Loading work.key_mode_ctrl
+# run -all 
+# KEY PASS: all 16 transitions, hold, bounce, chord, frame commit, reset
+# ** Note: $finish    : tb_key_mode.sv(39)
+#    Time: 11820 ns  Iteration: 1  Instance: /tb_key_mode

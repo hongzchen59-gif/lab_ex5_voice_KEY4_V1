@@ -1,0 +1,9 @@
+# vsim -do {run -all; quit -code 0} -l tb_color_fill.log -c -novopt work.tb_color_fill 
+# Loading sv_std.std
+# Loading work.tb_color_fill
+# Loading work.video_style_core
+# Loading work.rgb_window_3x3
+# run -all 
+# COLOR FILL PASS: 8450 colors, all gray levels, non-darkening luminance, gamut and near-neutral hue protection
+# ** Note: $finish    : tb_color_fill.sv(32)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_color_fill

@@ -1,0 +1,27 @@
+# vsim -do {run -all; quit -code 0} -l tb_latency_pipeline.log -c -novopt work.tb_latency_pipeline 
+# Loading sv_std.std
+# Loading work.tb_latency_pipeline
+# Loading work.base_gamma
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.video_latency
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# Loading work.latency_overlay
+# ** Warning: (vsim-3017) tb_latency_pipeline.sv(11): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_latency_pipeline/style
+# ** Warning: (vsim-3722) tb_latency_pipeline.sv(11): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# ** Warning: (vsim-3017) tb_latency_pipeline.sv(20): [TFMPC] - Too few port connections. Expected 31, found 30.
+# 
+#         Region: /tb_latency_pipeline/mixer
+# ** Warning: (vsim-3722) tb_latency_pipeline.sv(20): [TFMPC] - Missing connection for port 'I_effect_ready'.
+# 
+# run -all 
+# LATENCY PIPELINE PASS: actual gamma/style/HDMI mixer, endpoint delayed 3324 clocks, measured 5044 us includes ~44us display pipeline
+# ** Note: $finish    : tb_latency_pipeline.sv(39)
+#    Time: 186836008 ps  Iteration: 1  Instance: /tb_latency_pipeline

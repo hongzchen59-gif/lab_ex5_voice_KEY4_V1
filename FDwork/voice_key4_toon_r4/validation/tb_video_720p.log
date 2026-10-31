@@ -1,0 +1,40 @@
+# vsim -do {run -all; quit -code 0} -l tb_video_720p.log -c -novopt work.tb_video_720p 
+# Loading sv_std.std
+# Loading work.tb_video_720p
+# Loading work.base_gamma
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# ** Warning: (vsim-3017) tb_video_720p.sv(22): [TFMPC] - Too few port connections. Expected 31, found 20.
+# 
+#         Region: /tb_video_720p/mixer
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_status'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_cells'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_events'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_bbox'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_status'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_bcd'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_min'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_max'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_source'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'O_frame_sof'.
+# 
+# run -all 
+# 720P PASS: 4950000 raster clocks, 3686400 HDMI pixels, four full modes; label=728 logo=25548 counter=3752 pixels; diagnostic=4956
+# ** Note: $finish    : tb_video_720p.sv(109)
+#    Time: 82548553888 ps  Iteration: 1  Instance: /tb_video_720p

@@ -1,0 +1,45 @@
+# vsim -do {run -all; quit -code 0} -l tb_video_out_align.log -c -novopt work.tb_video_out_align 
+# Loading sv_std.std
+# Loading work.tb_video_out_align
+# Loading work.video_out
+# Loading work.w128_d512_fifo
+# Loading work.soft_fifo_al_4057d6b76aa6
+# Loading work.fifo_cross_domain_addr_process_al_4057d6b76aa6
+# Loading work.ram_infer_4057d6b76aa6
+# Loading work.video_pixel_align
+# ** Warning: (vsim-3017) tb_video_out_align.sv(22): [TFMPC] - Too few port connections. Expected 22, found 14.
+# 
+#         Region: /tb_video_out_align/reader
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_source_ids'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_complete'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_source_id'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_source_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_capture_us'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_capture_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_capture_us'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_capture_valid'.
+# 
+# ** Warning: (vsim-3017) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Too few port connections. Expected 16, found 14.
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'ceb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(333).
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (9 or 9) does not match connection size (32) for port 'addrb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(337).
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'doa'.
+# 
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'dib'.
+# 
+# run -all 
+# ALIGN PASS: 256 pixels, all 16 packing positions, four lines, real async FIFO and 2-clock metadata
+# ** Note: $finish    : tb_video_out_align.sv(56)
+#    Time: 6066970 ps  Iteration: 1  Instance: /tb_video_out_align

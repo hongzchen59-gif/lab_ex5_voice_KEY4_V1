@@ -1,0 +1,400 @@
+Generated 17472 raster clocks: 56 frames, fourteen scenes, four modes.
+MOTION independent reference: 20 frames; 96 64
+VISUAL PASS: {"scope": "synthetic post-gamma image properties; not hardware color calibration", "fill_non_darkening_sampled_RGB": 4096, "all_neutral_gray_levels_non_darkening": true, "flat_white_stays_white": true, "gray240_fill": [255, 255, 255], "color_probes": [{"input": [127, 129, 127], "R3_flat": [136, 160, 136], "R4_fill": [143, 145, 143]}, {"input": [127, 127, 129], "R3_flat": [136, 136, 160], "R4_fill": [128, 128, 130]}, {"input": [180, 60, 60], "R3_flat": [207, 59, 59], "R4_fill": [198, 63, 63]}, {"input": [60, 150, 60], "R3_flat": [57, 170, 57], "R4_fill": [62, 163, 62]}, {"input": [50, 80, 180], "R3_flat": [55, 95, 204], "R4_fill": [59, 92, 205]}], "near_neutral_channel_differences_preserved": true, "standard_step_ink_columns": [16], "standard_step_ink_pixels": 14, "linear_shading_not_ink": true, "same_luma_color_boundary_no_bleed": true, "KEY1_KEY2_KEY4_pixel_identical": true, "outline_note": "Local one-sided structural test, not a full Canny/NMS algorithm; general scene line widths may vary."}
+DETECT REFERENCE PASS: 36 BFS fixtures; all 12 color/shape combinations classified
+Model Technology ModelSim ALTERA vlog 10.1d Compiler 2012.11 Nov  2 2012
+-- Compiling module key_mode_ctrl
+-- Compiling module video_pixel_align
+-- Compiling module rgb_window_3x3
+-- Compiling module edge_preserve
+-- Compiling module video_style_core
+-- Compiling module video_style
+-- Compiling module detect_color_mask
+-- Compiling module detect_components
+-- Compiling module detect_overlay
+-- Compiling module video_detect
+-- Compiling module video_timebase
+-- Compiling module video_latency
+-- Compiling module latency_overlay
+-- Compiling module video_motion
+-- Compiling module motion_reduce
+-- Compiling module motion_difference
+-- Compiling module motion_filter_stats
+-- Compiling module motion_overlay
+-- Compiling module awb
+-- Compiling module awb_frame_div
+-- Compiling module base_gamma
+-- Compiling module frame_meter
+-- Compiling module meter_cdc
+-- Compiling module camera_auto_exposure
+-- Compiling module uicfgcs500_720p
+-- Compiling module uics500reg_720p30
+-- Compiling module uics500regAE
+-- Compiling module uii2c
+-- Compiling module SC500GainTbl
+-- Compiling module video_in
+-- Compiling module data_96bit_to_128bit
+-- Compiling module video_out
+-- Compiling module hdmi_mixer
+-- Compiling module osd_char_lib
+-- Compiling module anlogic_logo_rom
+-- Compiling module uivtc
+-- Compiling module w128_d512_fifo
+-- Compiling module soft_fifo_al_4057d6b76aa6
+-- Compiling module fifo_cross_domain_addr_process_al_4057d6b76aa6
+-- Compiling module ram_infer_4057d6b76aa6
+-- Compiling module tb_color_fill
+-- Compiling module tb_thin_contour
+-- Compiling module tb_vivid_status
+-- Compiling module tb_video_timebase
+-- Compiling module tb_video_latency
+-- Compiling module tb_latency_overlay
+-- Compiling module tb_latency_pipeline
+-- Compiling module tb_latency_startup
+-- Compiling module tb_motion_cdc
+-- Compiling module tb_motion
+-- Compiling module tb_video_tag
+-- Compiling module tb_motion_overlay
+-- Compiling module tb_motion_720p
+-- Compiling module tb_isp_ddr_frame
+-- Compiling module tb_awb_stability
+-- Compiling module tb_video_style
+-- Compiling module tb_key_mode
+-- Compiling module tb_video_out_align
+-- Compiling module tb_video_720p
+-- Compiling module tb_dark_control
+-- Compiling module tb_camera_config
+-- Compiling module tb_preserve_norm
+-- Compiling module tb_detect_mask
+-- Compiling module tb_detect_components
+-- Compiling module tb_detect_deadline
+-- Compiling module tb_detect_overlay
+-- Compiling module tb_detect_720p
+
+Top level modules:
+	tb_color_fill
+	tb_thin_contour
+	tb_vivid_status
+	tb_video_timebase
+	tb_video_latency
+	tb_latency_overlay
+	tb_latency_pipeline
+	tb_latency_startup
+	tb_motion_cdc
+	tb_motion
+	tb_video_tag
+	tb_motion_overlay
+	tb_motion_720p
+	tb_isp_ddr_frame
+	tb_awb_stability
+	tb_video_style
+	tb_key_mode
+	tb_video_out_align
+	tb_video_720p
+	tb_dark_control
+	tb_camera_config
+	tb_preserve_norm
+	tb_detect_mask
+	tb_detect_components
+	tb_detect_deadline
+	tb_detect_overlay
+	tb_detect_720p
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_color_fill.log -c -novopt work.tb_color_fill 
+# Loading sv_std.std
+# Loading work.tb_color_fill
+# Loading work.video_style_core
+# Loading work.rgb_window_3x3
+# run -all 
+# COLOR FILL PASS: 8450 colors, all gray levels, non-darkening luminance, gamut and near-neutral hue protection
+# ** Note: $finish    : tb_color_fill.sv(32)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_color_fill
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_thin_contour.log -c -novopt work.tb_thin_contour 
+# Loading sv_std.std
+# Loading work.tb_thin_contour
+# Loading work.video_style_core
+# Loading work.rgb_window_3x3
+# run -all 
+# THIN CONTOUR PASS: pattern=0 frames=2 checked=1024 ink=28, one bright-side step column / linear-gradient rejection
+# ** Note: $finish    : tb_thin_contour.sv(44)
+#    Time: 53962698 ps  Iteration: 1  Instance: /tb_thin_contour
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_vivid_status.log -c -novopt work.tb_vivid_status 
+# Loading sv_std.std
+# Loading work.tb_vivid_status
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# ** Warning: (vsim-3017) tb_vivid_status.sv(11): [TFMPC] - Too few port connections. Expected 31, found 21.
+# 
+#         Region: /tb_vivid_status/mixer
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_status'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_cells'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_events'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_bbox'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_status'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_valid'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_bcd'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_min'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_max'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_source'.
+# 
+# run -all 
+# VIVID STATUS PASS: both real windows active, version OSD, independent bypass fault injection and recovery
+# ** Note: $finish    : tb_vivid_status.sv(33)
+#    Time: 79123956 ps  Iteration: 1  Instance: /tb_vivid_status
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_video_style.log -c -novopt work.tb_video_style 
+# Loading sv_std.std
+# Loading work.tb_video_style
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# ** Warning: (vsim-3017) tb_video_style.sv(11): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_video_style/dut
+# ** Warning: (vsim-3722) tb_video_style.sv(11): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# run -all 
+# STYLE PASS: 17160 raster clocks, RGB + HS/VS/DE/SOF/EOL/mode exact
+# ** Note: $finish    : tb_video_style.sv(31)
+#    Time: 233939363 ps  Iteration: 0  Instance: /tb_video_style
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_key_mode.log -c -novopt work.tb_key_mode 
+# Loading sv_std.std
+# Loading work.tb_key_mode
+# Loading work.key_mode_ctrl
+# run -all 
+# KEY PASS: all 16 transitions, hold, bounce, chord, frame commit, reset
+# ** Note: $finish    : tb_key_mode.sv(39)
+#    Time: 11820 ns  Iteration: 1  Instance: /tb_key_mode
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_preserve_norm.log -c -novopt work.tb_preserve_norm 
+# Loading sv_std.std
+# Loading work.tb_preserve_norm
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# ** Warning: (vsim-3017) tb_preserve_norm.sv(4): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_preserve_norm/dut
+# ** Warning: (vsim-3722) tb_preserve_norm.sv(4): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# run -all 
+# NORM PASS: 127525 legal numerator/denominator pairs, exact rounded division
+# ** Note: $finish    : tb_preserve_norm.sv(14)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_preserve_norm
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_video_720p.log -c -novopt work.tb_video_720p 
+# Loading sv_std.std
+# Loading work.tb_video_720p
+# Loading work.base_gamma
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# ** Warning: (vsim-3017) tb_video_720p.sv(22): [TFMPC] - Too few port connections. Expected 31, found 20.
+# 
+#         Region: /tb_video_720p/mixer
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_status'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_cells'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_events'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_motion_bbox'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_status'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_bcd'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_min'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_max'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'I_latency_source'.
+# 
+# ** Warning: (vsim-3722) tb_video_720p.sv(22): [TFMPC] - Missing connection for port 'O_frame_sof'.
+# 
+# run -all 
+# 720P PASS: 4950000 raster clocks, 3686400 HDMI pixels, four full modes; label=728 logo=25548 counter=3752 pixels; diagnostic=4956
+# ** Note: $finish    : tb_video_720p.sv(109)
+#    Time: 82548553888 ps  Iteration: 1  Instance: /tb_video_720p
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_latency_pipeline.log -c -novopt work.tb_latency_pipeline 
+# Loading sv_std.std
+# Loading work.tb_latency_pipeline
+# Loading work.base_gamma
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.video_latency
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# Loading work.latency_overlay
+# ** Warning: (vsim-3017) tb_latency_pipeline.sv(11): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_latency_pipeline/style
+# ** Warning: (vsim-3722) tb_latency_pipeline.sv(11): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# ** Warning: (vsim-3017) tb_latency_pipeline.sv(20): [TFMPC] - Too few port connections. Expected 31, found 30.
+# 
+#         Region: /tb_latency_pipeline/mixer
+# ** Warning: (vsim-3722) tb_latency_pipeline.sv(20): [TFMPC] - Missing connection for port 'I_effect_ready'.
+# 
+# run -all 
+# LATENCY PIPELINE PASS: actual gamma/style/HDMI mixer, endpoint delayed 3324 clocks, measured 5044 us includes ~44us display pipeline
+# ** Note: $finish    : tb_latency_pipeline.sv(39)
+#    Time: 186836008 ps  Iteration: 1  Instance: /tb_latency_pipeline
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_latency_startup.log -c -novopt work.tb_latency_startup 
+# Loading sv_std.std
+# Loading work.tb_latency_startup
+# Loading work.uivtc
+# Loading work.video_out
+# Loading work.w128_d512_fifo
+# Loading work.soft_fifo_al_4057d6b76aa6
+# Loading work.fifo_cross_domain_addr_process_al_4057d6b76aa6
+# Loading work.ram_infer_4057d6b76aa6
+# Loading work.video_latency
+# Loading work.meter_cdc
+# ** Warning: (vsim-3017) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Too few port connections. Expected 16, found 14.
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'ceb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(333).
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (9 or 9) does not match connection size (32) for port 'addrb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(337).
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'doa'.
+# 
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'dib'.
+# 
+# run -all 
+# LATENCY STARTUP PASS: actual VTC/reset-high polarity, 5 frames, 4 LIVE updates across DDR/pixel clocks
+# ** Note: $finish    : tb_latency_startup.sv(51)
+#    Time: 45735620 ps  Iteration: 1  Instance: /tb_latency_startup
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_motion_720p.log -c -novopt work.tb_motion_720p 
+# Loading sv_std.std
+# Loading work.tb_motion_720p
+# Loading work.video_latency
+# Loading work.video_motion
+# Loading work.motion_reduce
+# Loading work.motion_difference
+# Loading work.motion_filter_stats
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# Loading work.motion_overlay
+# Loading work.latency_overlay
+# ** Warning: (vsim-3017) tb_motion_720p.sv(23): [TFMPC] - Too few port connections. Expected 31, found 30.
+# 
+#         Region: /tb_motion_720p/mixer
+# ** Warning: (vsim-3722) tb_motion_720p.sv(23): [TFMPC] - Missing connection for port 'I_effect_ready'.
+# 
+# run -all 
+# MOTION 720P PASS: five real raster frames, three unique sources, 36-cell analytical mask/bbox, duplicate hold, frame-latched yellow HUD and ORIGINAL suppression, 4608000 HDMI pixels
+# ** Note: $finish    : tb_motion_720p.sv(65)
+#    Time: 82504338344 ps  Iteration: 1  Instance: /tb_motion_720p
+Reading D:/FPGA/Modelsim/modelsim_ase/tcl/vsim/pref.tcl 
+
+# 10.1d
+
+# vsim -do {run -all; quit -code 0} -l tb_video_out_align.log -c -novopt work.tb_video_out_align 
+# Loading sv_std.std
+# Loading work.tb_video_out_align
+# Loading work.video_out
+# Loading work.w128_d512_fifo
+# Loading work.soft_fifo_al_4057d6b76aa6
+# Loading work.fifo_cross_domain_addr_process_al_4057d6b76aa6
+# Loading work.ram_infer_4057d6b76aa6
+# Loading work.video_pixel_align
+# ** Warning: (vsim-3017) tb_video_out_align.sv(22): [TFMPC] - Too few port connections. Expected 22, found 14.
+# 
+#         Region: /tb_video_out_align/reader
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_source_ids'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_complete'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_source_id'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_source_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_capture_us'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'I_bank_capture_valid'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_capture_us'.
+# 
+# ** Warning: (vsim-3722) tb_video_out_align.sv(22): [TFMPC] - Missing connection for port 'O_capture_valid'.
+# 
+# ** Warning: (vsim-3017) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Too few port connections. Expected 16, found 14.
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'ceb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(333).
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (9 or 9) does not match connection size (32) for port 'addrb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(337).
+# 
+#         Region: /tb_video_out_align/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'doa'.
+# 
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'dib'.
+# 
+# run -all 
+# ALIGN PASS: 256 pixels, all 16 packing positions, four lines, real async FIFO and 2-clock metadata
+# ** Note: $finish    : tb_video_out_align.sv(56)
+#    Time: 6066970 ps  Iteration: 1  Instance: /tb_video_out_align

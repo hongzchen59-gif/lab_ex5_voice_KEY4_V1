@@ -1,0 +1,836 @@
+[
+  {
+    "name": "1_circle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1264,
+        "color": 1,
+        "shape": 1,
+        "box": [
+          32,
+          20,
+          71,
+          59
+        ],
+        "record": "00564081d4ef1408f880"
+      }
+    ]
+  },
+  {
+    "name": "1_triangle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          32,
+          20,
+          71,
+          59
+        ],
+        "record": "00564081e4ef1408f880"
+      }
+    ]
+  },
+  {
+    "name": "1_rect",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1600,
+        "color": 1,
+        "shape": 3,
+        "box": [
+          32,
+          20,
+          71,
+          59
+        ],
+        "record": "00564081f4ef1408f880"
+      }
+    ]
+  },
+  {
+    "name": "1_down",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          32,
+          20,
+          71,
+          59
+        ],
+        "record": "00564081e4ef1408f880"
+      }
+    ]
+  },
+  {
+    "name": "2_circle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1264,
+        "color": 2,
+        "shape": 1,
+        "box": [
+          40,
+          20,
+          79,
+          59
+        ],
+        "record": "0056408e58ef1409f8a0"
+      }
+    ]
+  },
+  {
+    "name": "2_triangle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 2,
+        "shape": 2,
+        "box": [
+          40,
+          20,
+          79,
+          59
+        ],
+        "record": "0056408e68ef1409f8a0"
+      }
+    ]
+  },
+  {
+    "name": "2_rect",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1600,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          40,
+          20,
+          79,
+          59
+        ],
+        "record": "0056408e78ef1409f8a0"
+      }
+    ]
+  },
+  {
+    "name": "2_down",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 2,
+        "shape": 2,
+        "box": [
+          40,
+          20,
+          79,
+          59
+        ],
+        "record": "0056408e68ef1409f8a0"
+      }
+    ]
+  },
+  {
+    "name": "3_circle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1264,
+        "color": 3,
+        "shape": 1,
+        "box": [
+          48,
+          20,
+          87,
+          59
+        ],
+        "record": "0056409c5cef140af8c0"
+      }
+    ]
+  },
+  {
+    "name": "3_triangle",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 3,
+        "shape": 2,
+        "box": [
+          48,
+          20,
+          87,
+          59
+        ],
+        "record": "0056409c6cef140af8c0"
+      }
+    ]
+  },
+  {
+    "name": "3_rect",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1600,
+        "color": 3,
+        "shape": 3,
+        "box": [
+          48,
+          20,
+          87,
+          59
+        ],
+        "record": "0056409c7cef140af8c0"
+      }
+    ]
+  },
+  {
+    "name": "3_down",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 820,
+        "color": 3,
+        "shape": 2,
+        "box": [
+          48,
+          20,
+          87,
+          59
+        ],
+        "record": "0056409c6cef140af8c0"
+      }
+    ]
+  },
+  {
+    "name": "four_same_color_separation",
+    "status": 1,
+    "count": 4,
+    "objects": [
+      {
+        "area": 1280,
+        "color": 3,
+        "shape": 3,
+        "box": [
+          180,
+          50,
+          219,
+          81
+        ],
+        "record": "0098c1e67d47321b7ad0"
+      },
+      {
+        "area": 1264,
+        "color": 1,
+        "shape": 1,
+        "box": [
+          20,
+          20,
+          59,
+          59
+        ],
+        "record": "0056405654ef14077850"
+      },
+      {
+        "area": 1020,
+        "color": 2,
+        "shape": 1,
+        "box": [
+          250,
+          90,
+          285,
+          125
+        ],
+        "record": "010c441c59f75a23bbe8"
+      },
+      {
+        "area": 820,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          90,
+          30,
+          129,
+          69
+        ],
+        "record": "0066410e65171e103968"
+      }
+    ]
+  },
+  {
+    "name": "late_U_merge_unknown",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1100,
+        "color": 1,
+        "shape": 0,
+        "box": [
+          30,
+          25,
+          69,
+          69
+        ],
+        "record": "0062406645171908b878"
+      }
+    ]
+  },
+  {
+    "name": "diagonal_eight_connected",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1152,
+        "color": 1,
+        "shape": 0,
+        "box": [
+          25,
+          20,
+          72,
+          67
+        ],
+        "record": "005d4065450f14091864"
+      }
+    ]
+  },
+  {
+    "name": "different_colors_touch",
+    "status": 1,
+    "count": 2,
+    "objects": [
+      {
+        "area": 1024,
+        "color": 1,
+        "shape": 3,
+        "box": [
+          30,
+          30,
+          61,
+          61
+        ],
+        "record": "0060c060f4f71e07b878"
+      },
+      {
+        "area": 1024,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          62,
+          30,
+          93,
+          61
+        ],
+        "record": "0060c0c478f71e0bb8f8"
+      }
+    ]
+  },
+  {
+    "name": "border_and_tiny_rejected",
+    "status": 1,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "count_more_than_four",
+    "status": 1,
+    "count": 6,
+    "objects": [
+      {
+        "area": 1156,
+        "color": 3,
+        "shape": 3,
+        "box": [
+          252,
+          20,
+          285,
+          53
+        ],
+        "record": "0051c41d7cd71423bbf0"
+      },
+      {
+        "area": 1024,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          204,
+          20,
+          235,
+          51
+        ],
+        "record": "0050c21e78cf141d7b30"
+      },
+      {
+        "area": 900,
+        "color": 1,
+        "shape": 3,
+        "box": [
+          156,
+          20,
+          185,
+          49
+        ],
+        "record": "004e41a0f4c714173a70"
+      },
+      {
+        "area": 784,
+        "color": 3,
+        "shape": 3,
+        "box": [
+          108,
+          20,
+          135,
+          47
+        ],
+        "record": "004d4121fcbf1410f9b0"
+      }
+    ]
+  },
+  {
+    "name": "empty_clears_old",
+    "status": 1,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "run_capacity_exact",
+    "status": 1,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "run_capacity",
+    "status": 2,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "label_capacity",
+    "status": 2,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "label_capacity_exact",
+    "status": 1,
+    "count": 0,
+    "objects": []
+  },
+  {
+    "name": "many_stems_late_union",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 1932,
+        "color": 2,
+        "shape": 0,
+        "box": [
+          20,
+          25,
+          76,
+          80
+        ],
+        "record": "00844064c94319099850"
+      }
+    ]
+  },
+  {
+    "name": "mixed_0",
+    "status": 1,
+    "count": 4,
+    "objects": [
+      {
+        "area": 768,
+        "color": 1,
+        "shape": 3,
+        "box": [
+          12,
+          32,
+          35,
+          63
+        ],
+        "record": "0064402574ff20047830"
+      },
+      {
+        "area": 732,
+        "color": 2,
+        "shape": 1,
+        "box": [
+          86,
+          43,
+          114,
+          74
+        ],
+        "record": "008d4100592b2b0e5958"
+      },
+      {
+        "area": 648,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          234,
+          46,
+          273,
+          77
+        ],
+        "record": "0091c40565372e223ba8"
+      },
+      {
+        "area": 430,
+        "color": 3,
+        "shape": 2,
+        "box": [
+          160,
+          58,
+          186,
+          88
+        ],
+        "record": "00a4c1a4ed633a175a80"
+      }
+    ]
+  },
+  {
+    "name": "mixed_1",
+    "status": 1,
+    "count": 4,
+    "objects": [
+      {
+        "area": 1008,
+        "color": 2,
+        "shape": 1,
+        "box": [
+          12,
+          48,
+          51,
+          79
+        ],
+        "record": "00954049d93f30067830"
+      },
+      {
+        "area": 928,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          234,
+          52,
+          262,
+          83
+        ],
+        "record": "009c4264f94f3420dba8"
+      },
+      {
+        "area": 661,
+        "color": 3,
+        "shape": 2,
+        "box": [
+          86,
+          63,
+          126,
+          94
+        ],
+        "record": "00c541096d7b3f0fd958"
+      },
+      {
+        "area": 546,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          160,
+          50,
+          193,
+          81
+        ],
+        "record": "0098c1c1e54732183a80"
+      }
+    ]
+  },
+  {
+    "name": "mixed_2",
+    "status": 1,
+    "count": 4,
+    "objects": [
+      {
+        "area": 832,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          160,
+          51,
+          185,
+          82
+        ],
+        "record": "0099c1a4794b33173a80"
+      },
+      {
+        "area": 732,
+        "color": 3,
+        "shape": 1,
+        "box": [
+          234,
+          26,
+          262,
+          57
+        ],
+        "record": "0059c264dce71a20dba8"
+      },
+      {
+        "area": 661,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          86,
+          40,
+          126,
+          71
+        ],
+        "record": "0088c109651f280fd958"
+      },
+      {
+        "area": 648,
+        "color": 3,
+        "shape": 2,
+        "box": [
+          12,
+          45,
+          51,
+          76
+        ],
+        "record": "0090c049ed332d067830"
+      }
+    ]
+  },
+  {
+    "name": "mixed_3",
+    "status": 1,
+    "count": 4,
+    "objects": [
+      {
+        "area": 1216,
+        "color": 2,
+        "shape": 3,
+        "box": [
+          86,
+          35,
+          123,
+          66
+        ],
+        "record": "0080c106790b230f7958"
+      },
+      {
+        "area": 708,
+        "color": 3,
+        "shape": 1,
+        "box": [
+          160,
+          63,
+          187,
+          94
+        ],
+        "record": "00c541a55d7b3f177a80"
+      },
+      {
+        "area": 528,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          12,
+          25,
+          43,
+          56
+        ],
+        "record": "0058c04464e319057830"
+      },
+      {
+        "area": 384,
+        "color": 1,
+        "shape": 2,
+        "box": [
+          234,
+          61,
+          257,
+          91
+        ],
+        "record": "00c14260e56f3d203ba8"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_0",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 190,
+        "color": 3,
+        "shape": 1,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c5d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_1",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 183,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_2",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 165,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_3",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 183,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_4",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 180,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_5",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 175,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_6",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 168,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  },
+  {
+    "name": "random_branching_7",
+    "status": 1,
+    "count": 1,
+    "objects": [
+      {
+        "area": 174,
+        "color": 3,
+        "shape": 0,
+        "box": [
+          100,
+          60,
+          115,
+          75
+        ],
+        "record": "009c410c4d2f3c0e7990"
+      }
+    ]
+  }
+]

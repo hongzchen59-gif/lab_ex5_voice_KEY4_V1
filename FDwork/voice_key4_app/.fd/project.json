@@ -1,0 +1,14 @@
+{
+    "arch": "rv32",
+    "bspLocation": "D:/Anlogic/FDwork/voice_key4_platform/voice_key4_platform",
+    "bspName": "voice_key4_platform",
+    "chip": "ph1p35",
+    "languageType": "C",
+    "location": "D:/Anlogic/FDwork/voice_key4_app",
+    "name": "voice_key4_app",
+    "os": "standalone",
+    "processor": "rpu",
+    "templateName": "EMPTY",
+    "toolVersion": "862c784 (2026-09-02-16:28)",
+    "type": "application"
+}

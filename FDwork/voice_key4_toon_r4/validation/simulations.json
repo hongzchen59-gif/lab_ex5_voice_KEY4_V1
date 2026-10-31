@@ -1,0 +1,92 @@
+{
+  "scope": "11 affected benches plus one linear-gradient parameter variant; not the entire default suite",
+  "runs": [
+    {
+      "bench": "tb_color_fill",
+      "result": "PASS",
+      "evidence": [
+        "# COLOR FILL PASS: 8450 colors, all gray levels, non-darkening luminance, gamut and near-neutral hue protection"
+      ]
+    },
+    {
+      "bench": "tb_thin_contour",
+      "result": "PASS",
+      "evidence": [
+        "# THIN CONTOUR PASS: pattern=0 frames=2 checked=1024 ink=28, one bright-side step column / linear-gradient rejection"
+      ]
+    },
+    {
+      "bench": "tb_vivid_status",
+      "result": "PASS",
+      "evidence": [
+        "# VIVID STATUS PASS: both real windows active, version OSD, independent bypass fault injection and recovery"
+      ]
+    },
+    {
+      "bench": "tb_video_style",
+      "result": "PASS",
+      "evidence": [
+        "# STYLE PASS: 17160 raster clocks, RGB + HS/VS/DE/SOF/EOL/mode exact"
+      ]
+    },
+    {
+      "bench": "tb_key_mode",
+      "result": "PASS",
+      "evidence": [
+        "# KEY PASS: all 16 transitions, hold, bounce, chord, frame commit, reset"
+      ]
+    },
+    {
+      "bench": "tb_preserve_norm",
+      "result": "PASS",
+      "evidence": [
+        "# NORM PASS: 127525 legal numerator/denominator pairs, exact rounded division"
+      ]
+    },
+    {
+      "bench": "tb_video_720p",
+      "result": "PASS",
+      "evidence": [
+        "# 720P PASS: 4950000 raster clocks, 3686400 HDMI pixels, four full modes; label=728 logo=25548 counter=3752 pixels; diagnostic=4956"
+      ]
+    },
+    {
+      "bench": "tb_latency_pipeline",
+      "result": "PASS",
+      "evidence": [
+        "# LATENCY PIPELINE PASS: actual gamma/style/HDMI mixer, endpoint delayed 3324 clocks, measured 5044 us includes ~44us display pipeline"
+      ]
+    },
+    {
+      "bench": "tb_latency_startup",
+      "result": "PASS",
+      "evidence": [
+        "# LATENCY STARTUP PASS: actual VTC/reset-high polarity, 5 frames, 4 LIVE updates across DDR/pixel clocks"
+      ]
+    },
+    {
+      "bench": "tb_motion_720p",
+      "result": "PASS",
+      "evidence": [
+        "# MOTION 720P PASS: five real raster frames, three unique sources, 36-cell analytical mask/bbox, duplicate hold, frame-latched yellow HUD and ORIGINAL suppression, 4608000 HDMI pixels"
+      ]
+    },
+    {
+      "bench": "tb_video_out_align",
+      "result": "PASS",
+      "evidence": [
+        "# ALIGN PASS: 256 pixels, all 16 packing positions, four lines, real async FIFO and 2-clock metadata"
+      ]
+    },
+    {
+      "bench": "tb_thin_contour",
+      "parameters": {
+        "PATTERN": 1
+      },
+      "result": "PASS",
+      "evidence": [
+        "# THIN CONTOUR PASS: pattern=1 frames=2 checked=112 ink=0, one bright-side step column / linear-gradient rejection"
+      ]
+    }
+  ]
+}

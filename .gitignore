@@ -1,0 +1,26 @@
+# Local tools and IDE caches
+.metadata/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# FPGA and simulator generated output
+**/cli_build/
+**/*_Runs/
+**/sim/work/
+**/sim/voice_work/
+*.wlf
+*.vcd
+*.logw
+
+# Firmware temporary output; keep the matching application ELF
+FDwork/voice_key4_app/build/*
+!FDwork/voice_key4_app/build/voice_key4.elf
+
+# Local credentials and tool licenses
+.env
+.env.*
+*.pem
+*.key
+license.lic

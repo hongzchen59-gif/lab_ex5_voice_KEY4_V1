@@ -1,0 +1,14 @@
+# vsim -do {run -all; quit -code 0} -l tb_preserve_norm.log -c -novopt work.tb_preserve_norm 
+# Loading sv_std.std
+# Loading work.tb_preserve_norm
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# ** Warning: (vsim-3017) tb_preserve_norm.sv(4): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_preserve_norm/dut
+# ** Warning: (vsim-3722) tb_preserve_norm.sv(4): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# run -all 
+# NORM PASS: 127525 legal numerator/denominator pairs, exact rounded division
+# ** Note: $finish    : tb_preserve_norm.sv(14)
+#    Time: 0 ps  Iteration: 0  Instance: /tb_preserve_norm

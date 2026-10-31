@@ -1,0 +1,37 @@
+# vsim -do {run -all; quit -code 0} -l tb_vivid_status.log -c -novopt work.tb_vivid_status 
+# Loading sv_std.std
+# Loading work.tb_vivid_status
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# ** Warning: (vsim-3017) tb_vivid_status.sv(11): [TFMPC] - Too few port connections. Expected 31, found 21.
+# 
+#         Region: /tb_vivid_status/mixer
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_status'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_cells'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_events'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_motion_bbox'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_status'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_valid'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_bcd'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_min'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_max'.
+# 
+# ** Warning: (vsim-3722) tb_vivid_status.sv(11): [TFMPC] - Missing connection for port 'I_latency_source'.
+# 
+# run -all 
+# VIVID STATUS PASS: both real windows active, version OSD, independent bypass fault injection and recovery
+# ** Note: $finish    : tb_vivid_status.sv(33)
+#    Time: 79123956 ps  Iteration: 1  Instance: /tb_vivid_status

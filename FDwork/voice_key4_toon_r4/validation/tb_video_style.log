@@ -1,0 +1,16 @@
+# vsim -do {run -all; quit -code 0} -l tb_video_style.log -c -novopt work.tb_video_style 
+# Loading sv_std.std
+# Loading work.tb_video_style
+# Loading work.video_style
+# Loading work.edge_preserve
+# Loading work.rgb_window_3x3
+# Loading work.video_style_core
+# ** Warning: (vsim-3017) tb_video_style.sv(11): [TFMPC] - Too few port connections. Expected 5, found 4.
+# 
+#         Region: /tb_video_style/dut
+# ** Warning: (vsim-3722) tb_video_style.sv(11): [TFMPC] - Missing connection for port 'O_effect_ready'.
+# 
+# run -all 
+# STYLE PASS: 17160 raster clocks, RGB + HS/VS/DE/SOF/EOL/mode exact
+# ** Note: $finish    : tb_video_style.sv(31)
+#    Time: 233939363 ps  Iteration: 0  Instance: /tb_video_style

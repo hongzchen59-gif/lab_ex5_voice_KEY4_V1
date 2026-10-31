@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<projectDescription>
+  <name>voice_key4_app</name>
+  <comment>PH1P35 KEY4 voice bring-up. No device programming in build.</comment>
+  <projects>
+    <project>voice_key4_platform</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.cdt.make.core.makeBuilder</name>
+      <triggers>clean,full,incremental,</triggers>
+      <arguments>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.build.command</key>
+          <value>C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.build.arguments</key>
+          <value>-NoProfile -ExecutionPolicy Bypass -File "D:/Anlogic/FDwork/voice_key4_app/build.ps1"</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.build.location</key>
+          <value>D:/Anlogic/FDwork/voice_key4_app</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.useDefaultBuildCmd</key>
+          <value>false</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.enableAutoBuild</key>
+          <value>false</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.enableFullBuild</key>
+          <value>true</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.enableIncrementalBuild</key>
+          <value>true</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.enableCleanBuild</key>
+          <value>false</value>
+        </dictionary>
+        <dictionary>
+          <key>org.eclipse.cdt.make.core.stopOnError</key>
+          <value>true</value>
+        </dictionary>
+      </arguments>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.cdt.core.cnature</nature>
+    <nature>org.eclipse.cdt.make.core.makeNature</nature>
+    <nature>org.eclipse.cdt.make.core.ScannerConfigNature</nature>
+    <nature>com.anlogic.sdk.app.applicationProject</nature>
+  </natures>
+</projectDescription>

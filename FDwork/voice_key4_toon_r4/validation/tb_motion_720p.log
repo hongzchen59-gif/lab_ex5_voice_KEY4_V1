@@ -1,0 +1,22 @@
+# vsim -do {run -all; quit -code 0} -l tb_motion_720p.log -c -novopt work.tb_motion_720p 
+# Loading sv_std.std
+# Loading work.tb_motion_720p
+# Loading work.video_latency
+# Loading work.video_motion
+# Loading work.motion_reduce
+# Loading work.motion_difference
+# Loading work.motion_filter_stats
+# Loading work.hdmi_mixer
+# Loading work.osd_char_lib
+# Loading work.anlogic_logo_rom
+# Loading work.motion_overlay
+# Loading work.latency_overlay
+# ** Warning: (vsim-3017) tb_motion_720p.sv(23): [TFMPC] - Too few port connections. Expected 31, found 30.
+# 
+#         Region: /tb_motion_720p/mixer
+# ** Warning: (vsim-3722) tb_motion_720p.sv(23): [TFMPC] - Missing connection for port 'I_effect_ready'.
+# 
+# run -all 
+# MOTION 720P PASS: five real raster frames, three unique sources, 36-cell analytical mask/bbox, duplicate hold, frame-latched yellow HUD and ORIGINAL suppression, 4608000 HDMI pixels
+# ** Note: $finish    : tb_motion_720p.sv(65)
+#    Time: 82504338344 ps  Iteration: 1  Instance: /tb_motion_720p

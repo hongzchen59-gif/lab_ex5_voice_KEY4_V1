@@ -1,0 +1,107 @@
+{
+  "scope": "synthetic post-gamma image properties; not hardware color calibration",
+  "fill_non_darkening_sampled_RGB": 4096,
+  "all_neutral_gray_levels_non_darkening": true,
+  "flat_white_stays_white": true,
+  "gray240_fill": [
+    255,
+    255,
+    255
+  ],
+  "color_probes": [
+    {
+      "input": [
+        127,
+        129,
+        127
+      ],
+      "R3_flat": [
+        136,
+        160,
+        136
+      ],
+      "R4_fill": [
+        143,
+        145,
+        143
+      ]
+    },
+    {
+      "input": [
+        127,
+        127,
+        129
+      ],
+      "R3_flat": [
+        136,
+        136,
+        160
+      ],
+      "R4_fill": [
+        128,
+        128,
+        130
+      ]
+    },
+    {
+      "input": [
+        180,
+        60,
+        60
+      ],
+      "R3_flat": [
+        207,
+        59,
+        59
+      ],
+      "R4_fill": [
+        198,
+        63,
+        63
+      ]
+    },
+    {
+      "input": [
+        60,
+        150,
+        60
+      ],
+      "R3_flat": [
+        57,
+        170,
+        57
+      ],
+      "R4_fill": [
+        62,
+        163,
+        62
+      ]
+    },
+    {
+      "input": [
+        50,
+        80,
+        180
+      ],
+      "R3_flat": [
+        55,
+        95,
+        204
+      ],
+      "R4_fill": [
+        59,
+        92,
+        205
+      ]
+    }
+  ],
+  "near_neutral_channel_differences_preserved": true,
+  "standard_step_ink_columns": [
+    16
+  ],
+  "standard_step_ink_pixels": 14,
+  "linear_shading_not_ink": true,
+  "same_luma_color_boundary_no_bleed": true,
+  "KEY1_KEY2_KEY4_pixel_identical": true,
+  "outline_note": "Local one-sided structural test, not a full Canny/NMS algorithm; general scene line widths may vary."
+}

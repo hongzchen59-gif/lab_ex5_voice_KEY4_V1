@@ -1,0 +1,41 @@
+
+set_pin_assignment	{ I_sys_clk }			{ LOCATION = C4; IOSTANDARD  = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment	{ I_rst_n }				{ LOCATION = R10; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+
+set_pin_assignment	{ O_cam_scl }		{ LOCATION = K3; IOSTANDARD  = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; }
+set_pin_assignment	{ IO_cam_sda }		{ LOCATION = J3; IOSTANDARD  = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; }
+set_pin_assignment	{ O_cam_24m }	{ LOCATION = L3; IOSTANDARD  = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; }
+set_pin_assignment	{ O_cam_rst }		{ LOCATION = L2; IOSTANDARD  = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLUP; }
+
+set_pin_assignment { I_button[0] } { LOCATION = D5; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_button[1] } { LOCATION = A9; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_button[2] } { LOCATION = B9; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_button[3] } { LOCATION = C7; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+
+set_pin_assignment	{ O_screen_pwm } 		{ LOCATION = R11; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 8; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ O_tmds_ch0_p }		{ LOCATION = G16; IOSTANDARD = TMDS33; PULLTYPE = NONE; }
+set_pin_assignment	{ O_tmds_ch1_p }		{ LOCATION = F17; IOSTANDARD = TMDS33; PULLTYPE = NONE; }
+set_pin_assignment	{ O_tmds_ch2_p }		{ LOCATION = H14; IOSTANDARD = TMDS33; PULLTYPE = NONE; }
+set_pin_assignment	{ O_tmds_clk_p }		{ LOCATION = C17; IOSTANDARD = TMDS33; PULLTYPE = NONE; }
+
+
+
+# Proposed HX1P35A wiring; verify connector orientation before attachment.
+set_pin_assignment { I_voice_uart_rx } { LOCATION = J1; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { O_voice_uart_tx } { LOCATION = H1; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; }
+set_pin_assignment { O_mic_sck } { LOCATION = C18; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; }
+set_pin_assignment { O_mic_ws } { LOCATION = D15; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; }
+set_pin_assignment { I_mic_sd } { LOCATION = E12; IOSTANDARD = LVCMOS33; PULLTYPE = PULLDOWN; }
+
+# AXIS_JOG_R1, J2-4/5/6/7 = GPIOB3/4/5/6. X42 En=H, COM to GND.
+# Reset/disabled drives STEP=0 and EN=0, PWM is off until explicit UART enable.
+set_pin_assignment { O_axis_step } { LOCATION = E16; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; PULLTYPE = PULLDOWN; }
+set_pin_assignment { O_axis_dir } { LOCATION = E17; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; PULLTYPE = PULLDOWN; }
+set_pin_assignment { O_axis_en } { LOCATION = F13; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; PULLTYPE = PULLDOWN; }
+set_pin_assignment { O_servo_pwm } { LOCATION = F14; IOSTANDARD = LVCMOS33; DRIVESTRENGTH = 4; PULLTYPE = PULLDOWN; }
+
+# Passive normally-open buttons to GND, active low. J2-8/9/10/13.
+set_pin_assignment { I_voice_keys_n[0] } { LOCATION = F18; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_voice_keys_n[1] } { LOCATION = G17; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_voice_keys_n[2] } { LOCATION = H17; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }
+set_pin_assignment { I_voice_keys_n[3] } { LOCATION = H18; IOSTANDARD = LVCMOS33; PULLTYPE = PULLUP; }

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<projectDescription>
+  <name>voice_key4_platform</name>
+  <comment>PH1P35 KEY4 voice bring-up. No device programming in build.</comment>
+  <projects />
+  <buildSpec />
+  <natures>
+    <nature>org.eclipse.cdt.core.cnature</nature>
+    <nature>com.anlogic.sdk.bsp.platformProject</nature>
+  </natures>
+</projectDescription>

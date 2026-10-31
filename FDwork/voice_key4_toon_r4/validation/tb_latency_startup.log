@@ -1,0 +1,28 @@
+# vsim -do {run -all; quit -code 0} -l tb_latency_startup.log -c -novopt work.tb_latency_startup 
+# Loading sv_std.std
+# Loading work.tb_latency_startup
+# Loading work.uivtc
+# Loading work.video_out
+# Loading work.w128_d512_fifo
+# Loading work.soft_fifo_al_4057d6b76aa6
+# Loading work.fifo_cross_domain_addr_process_al_4057d6b76aa6
+# Loading work.ram_infer_4057d6b76aa6
+# Loading work.video_latency
+# Loading work.meter_cdc
+# ** Warning: (vsim-3017) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Too few port connections. Expected 16, found 14.
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (1 or 1) does not match connection size (32) for port 'ceb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(333).
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3015) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [PCDPC] - Port size (9 or 9) does not match connection size (32) for port 'addrb'. The port definition is at: D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(337).
+# 
+#         Region: /tb_latency_startup/reader/U_w128_d512_fifo/soft_fifo_al_4057d6b76aa6_Inst/ram_inst
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'doa'.
+# 
+# ** Warning: (vsim-3722) D:/Anlogic/HX1P35A2026/anlogic_example/lab_ex5_voice_KEY4_V1/lab_ex4_style/sim/../user_source/ip_source/w128_d512_fifo/soft_fifo_al_4057d6b76aa6.v(234): [TFMPC] - Missing connection for port 'dib'.
+# 
+# run -all 
+# LATENCY STARTUP PASS: actual VTC/reset-high polarity, 5 frames, 4 LIVE updates across DDR/pixel clocks
+# ** Note: $finish    : tb_latency_startup.sv(51)
+#    Time: 45735620 ps  Iteration: 1  Instance: /tb_latency_startup
